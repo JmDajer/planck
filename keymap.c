@@ -68,15 +68,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     |       |       |       |       |       |       |       |       |       |       |       |       |
     +-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
     |       |       |       |       |       |               |       |       |       |       |       |
-    | CTRL* | CAPS  |  ALT* | SUPER*| LOWER*|     SPACE*    | RASIE*| NEXT  |  VOL+ |  VOL- | PAUSE |
-    |       | LOCK* |       |       |       |               |       | TRACK |       |       |       |
+    | CTRL* | CAPS  |  ALT* | SUPER*| LOWER*|     SPACE*    | RASIE*| PREV  |  VOL- |  VOL+ | NEXT  |
+    |       | LOCK* |       |       |       |               |       | TRACK |       |       | TRACK |
     +-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
     */
     [_LOWER] = LAYOUT_planck_grid(
       _______   , EE_EXLM   , EE_AT     , EE_HASH   , EE_DLR    , EE_PERC   , EE_CIRC   , EE_AMPR   , EE_ASTR               , EE_LPRN           , EE_RPRN           , _______               , 
       KC_DELETE , EE_ADIA   , EE_ODIA   , EE_OTIL   , EE_UDIA   , EE_SCAR   , EE_ZCAR   , EE_UNDS   , EE_PLUS               , EE_LCBR           , EE_RCBR           , EE_PIPE               ,        
       _______   , XXXXXXX   , XXXXXXX   , XXXXXXX   , XXXXXXX   , XXXXXXX   , XXXXXXX   , EE_GRV    , EE_TILD               , EE_LBRC           , EE_RBRC           , _______               , 
-      _______   , _______   , _______   , _______   , _______   , _______   , _______   , _______   , KC_MEDIA_NEXT_TRACK   , KC_AUDIO_VOL_DOWN , KC_AUDIO_VOL_UP   , KC_MEDIA_PLAY_PAUSE   
+      _______   , _______   , _______   , _______   , _______   , _______   , _______   , _______   , KC_MEDIA_PREV_TRACK   , KC_AUDIO_VOL_DOWN , KC_AUDIO_VOL_UP   , KC_MEDIA_NEXT_TRACK   
     ),
 
     /*
@@ -96,15 +96,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     |       |       |       |       |       |       |       |       |       | UP    | DOWN  |       |
     +-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
     |       |       |       |       |       |               |       |       |       |       |       |
-    | CTRL* | CAPS  |  ALT* | SUPER*| LOWER*|     SPACE*    | RAISE*| NEXT  |  VOL+ |  VOL- | PAUSE |
-    |       | LOCK* |       |       |       |               |       | TRACK |       |       |       |
+    | CTRL* | CAPS  |  ALT* | SUPER*| LOWER*|     SPACE*    | RAISE*|  MUTE |  VOL- |  VOL+ | PLAY- |
+    |       | LOCK* |       |       |       |               |       |       |       |       | PAUSE |
     +-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
     */
     [_RAISE] = LAYOUT_planck_grid(
-      _______   , EE_1      , EE_2      , EE_3      , EE_4      , EE_5      , EE_6      , EE_7      , EE_8                  , EE_9              , EE_0              , _______               , 
-      KC_DELETE , KC_F1     , KC_F2     , KC_F3     , KC_F4     , KC_F5     , KC_F6     , EE_MINS   , EE_EQL                , EE_LABK           , EE_RABK           , EE_BSLS               ,        
-      _______   , KC_F7     , KC_F8     , KC_F9     , KC_F10    , KC_F11    , KC_F12    , KC_HOME   , KC_END                , KC_PAGE_UP        , KC_PGDN           , _______               , 
-      _______   , _______   , _______   , _______   , _______   , _______   , _______   , _______   , KC_MEDIA_NEXT_TRACK   , KC_AUDIO_VOL_DOWN , KC_AUDIO_VOL_UP   , KC_MEDIA_PLAY_PAUSE   
+      _______   , EE_1      , EE_2      , EE_3      , EE_4      , EE_5      , EE_6      , EE_7      , EE_8          , EE_9              , EE_0              , _______               , 
+      KC_DELETE , KC_F1     , KC_F2     , KC_F3     , KC_F4     , KC_F5     , KC_F6     , EE_MINS   , EE_EQL        , EE_LABK           , EE_RABK           , EE_BSLS               ,        
+      _______   , KC_F7     , KC_F8     , KC_F9     , KC_F10    , KC_F11    , KC_F12    , KC_HOME   , KC_END        , KC_PAGE_UP        , KC_PGDN           , _______               , 
+      _______   , _______   , _______   , _______   , _______   , _______   , _______   , _______   , KC_AUDIO_MUTE , KC_AUDIO_VOL_DOWN , KC_AUDIO_VOL_UP   , KC_MEDIA_PLAY_PAUSE   
     ),
 
 
