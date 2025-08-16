@@ -1,15 +1,10 @@
 #include QMK_KEYBOARD_H
-#ifdef AUDIO_ENABLE
-#include "muse.h"
-#endif
 #include "eeprom.h"
 #include "i18n.h"
 #include "keymap-estonian.h"
 
-enum planck_keycodes {
-  RGB_SLD = SAFE_RANGE,
-};
-
+#define LOWER MO(_LOWER)
+#define RAISE MO(_RAISE)
 
 enum planck_layers {
   _BASE,
@@ -18,9 +13,9 @@ enum planck_layers {
   _ADJUST,
 };
 
-#define LOWER MO(_LOWER)
-#define RAISE MO(_RAISE)
-
+uint8_t layer_state_set_user(uint8_t state) {
+    return update_tri_layer_state(state, _LOWER, _RAISE, _ADJUST);
+}
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /*
@@ -64,7 +59,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     |       |       |       |       |       |       |       |       |       |       |       |       |
     +-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
     |       |       |       |       |       |       |       |       |       |       |       |       |
-    | SHIFT*|       |       |       |       |       |       |   `   |   ~   |   [   |   ]   |  <─┘* |
+    | SHIFT*|   €   |   £   |       |       |       |   ~   |   `   |   ´   |   [   |   ]   |  <─┘* |
     |       |       |       |       |       |       |       |       |       |       |       |       |
     +-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
     |       |       |       |       |       |               |       |       |       |       |       |
@@ -75,7 +70,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_LOWER] = LAYOUT_planck_grid(
       _______   , EE_EXLM   , EE_AT     , EE_HASH   , EE_DLR    , EE_PERC   , EE_CIRC   , EE_AMPR   , EE_ASTR               , EE_LPRN           , EE_RPRN           , _______               , 
       KC_DELETE , EE_ADIA   , EE_ODIA   , EE_OTIL   , EE_UDIA   , EE_SCAR   , EE_ZCAR   , EE_UNDS   , EE_PLUS               , EE_LCBR           , EE_RCBR           , EE_PIPE               ,        
-      _______   , XXXXXXX   , XXXXXXX   , XXXXXXX   , XXXXXXX   , XXXXXXX   , XXXXXXX   , EE_GRV    , EE_TILD               , EE_LBRC           , EE_RBRC           , _______               , 
+      _______   , EE_EURO   , EE_PND    , XXXXXXX   , XXXXXXX   , XXXXXXX   , EE_TILD   , EE_GRV    , EE_ACUT               , EE_LBRC           , EE_RBRC           , _______               , 
       _______   , _______   , _______   , _______   , _______   , _______   , _______   , _______   , KC_MEDIA_PREV_TRACK   , KC_AUDIO_VOL_DOWN , KC_AUDIO_VOL_UP   , KC_MEDIA_NEXT_TRACK   
     ),
 
@@ -107,7 +102,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______   , _______   , _______   , _______   , _______   , _______   , _______   , _______   , KC_AUDIO_MUTE , KC_AUDIO_VOL_DOWN , KC_AUDIO_VOL_UP   , KC_MEDIA_PLAY_PAUSE   
     ),
 
-
     /*
     +---------------+-------------------------------------------------------------------------------+
     | ADJUST LAYER  | LOWER + RAISE                                                                 |
@@ -117,12 +111,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     |       |       |       |       |       |       |       |       |       |       |       |       |
     +-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
     |       |       |       |       |       |       |       |       |       |       |       |       |
-    |       |       | AUDIO | AUDIO | AUDIO |       |       | RGB   | RGB   |       |       | BOOT  |
-    |       |       | ON    | OFF   | TOGGLE|       |       | TOGGLE| VAI   |       |       |       |
+    |       |       | AUDIO | AUDIO | AUDIO |       |       | RGB   | RGB   |  RGB  |       | BOOT  |
+    |       |       | ON    | OFF   | TOGGLE|       |       | TOGGLE| VAI   |  VAD  |       |       |
     +-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
     |       |       |       |       |       |       |       | RGB   |       |       |       |       |
-    |       |       | MUSIC | MUSIC | MUSIC |       |       | MODE  | RGB   |       |       |       |
-    |       |       | ON    | OFF   | TOGGLE|       |       |FORWARD| HUD   |       |       |       |
+    |       |       | MUSIC | MUSIC | MUSIC |       |       | MODE  | RGB   |  RGB  |       |       |
+    |       |       | ON    | OFF   | TOGGLE|       |       |FORWARD| HUI   |  HUD  |       |       |
     +-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
     |       |       |       |       |       |               |       |       |       |       |       |
     |       |       |       |       |       |               |       |       |       |       |       |
@@ -135,97 +129,4 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       XXXXXXX   , XXXXXXX   , QK_MUSIC_ON   , QK_MUSIC_OFF  , MU_TOGG   , XXXXXXX   , XXXXXXX   , RGB_MODE_FORWARD  , RGB_HUI   , RGB_HUD   , XXXXXXX   , XXXXXXX   , 
       XXXXXXX   , XXXXXXX   , XXXXXXX       , XXXXXXX       , XXXXXXX   , XXXXXXX   , XXXXXXX   , XXXXXXX           , XXXXXXX   , XXXXXXX   , XXXXXXX   , XXXXXXX   
     ),
-
 };
-
-
-
-
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  switch (keycode) {
-
-    case RGB_SLD:
-        if (record->event.pressed) {
-            rgblight_mode(1);
-        }
-        return false;
-  }
-  return true;
-}
-
-#ifdef AUDIO_ENABLE
-bool muse_mode = false;
-uint8_t last_muse_note = 0;
-uint16_t muse_counter = 0;
-uint8_t muse_offset = 70;
-uint16_t muse_tempo = 50;
-
-void encoder_update(bool clockwise) {
-    if (muse_mode) {
-        if (IS_LAYER_ON(_RAISE)) {
-            if (clockwise) {
-                muse_offset++;
-            } else {
-                muse_offset--;
-            }
-        } else {
-            if (clockwise) {
-                muse_tempo+=1;
-            } else {
-                muse_tempo-=1;
-            }
-        }
-    } else {
-        if (clockwise) {
-        #ifdef MOUSEKEY_ENABLE
-            register_code(KC_MS_WH_DOWN);
-            unregister_code(KC_MS_WH_DOWN);
-        #else
-            register_code(KC_PGDN);
-            unregister_code(KC_PGDN);
-        #endif
-        } else {
-        #ifdef MOUSEKEY_ENABLE
-            register_code(KC_MS_WH_UP);
-            unregister_code(KC_MS_WH_UP);
-        #else
-            register_code(KC_PGUP);
-            unregister_code(KC_PGUP);
-        #endif
-        }
-    }
-}
-
-void matrix_scan_user(void) {
-#ifdef AUDIO_ENABLE
-    if (muse_mode) {
-        if (muse_counter == 0) {
-            uint8_t muse_note = muse_offset + SCALE[muse_clock_pulse()];
-            if (muse_note != last_muse_note) {
-                stop_note(compute_freq_for_midi_note(last_muse_note));
-                play_note(compute_freq_for_midi_note(muse_note), 0xF);
-                last_muse_note = muse_note;
-            }
-        }
-        muse_counter = (muse_counter + 1) % muse_tempo;
-    }
-#endif
-}
-
-bool music_mask_user(uint16_t keycode) {
-    switch (keycode) {
-    case RAISE:
-    case LOWER:
-        return false;
-    default:
-        return true;
-    }
-}
-#endif
-
-uint8_t layer_state_set_user(uint8_t state) {
-    return update_tri_layer_state(state, _LOWER, _RAISE, _ADJUST);
-}
-
-
-
